@@ -11,6 +11,8 @@ switch ($action) {
 		$tokenManager->createTable();
 		$apiManager = new ApiManager($bdd);
 		$apiManager->createTable();
+		$csvManager = new CsvManager($bdd);
+		$csvManager->createTable();
 		
 		/*redirection*/
 		header('Location: ?controler=install&action=firstuser');

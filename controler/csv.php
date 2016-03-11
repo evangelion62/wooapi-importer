@@ -3,6 +3,9 @@
 $adminLvlThisControler=4;
 require_once 'lib/checkRights.php';
 
+$util = new Util();
+$userid=$util->getUserId($_SESSION['token'], $bdd);
+
 switch ($action) {
 	case 'questexport':
 		$questionManager = new QuestionManager($bdd);
@@ -74,9 +77,13 @@ switch ($action) {
 						//Store file in directory "upload" with the name of "uploaded_file.txt"
 						$storagename = $_FILES["file"]["name"];
 						move_uploaded_file($_FILES["file"]["tmp_name"], "web/csv/" . $storagename);
+						$csvManager = new CsvManager($bdd);
+						$data = array('name'=>$storagename,'userid'=>$userid);
+						$csv = new Csv($data);
+						$csvManager->add($csv);
 						echo "Stored in: " . "web/csv/" . $_FILES["file"]["name"] . "<br />";
 					}
-					$content = ob_get_contents();
+					$userError[] = ob_get_contents();
 					ob_end_clean();
 					require_once 'view/layout/layout.php';
 				}
@@ -96,9 +103,29 @@ switch ($action) {
 		}
 	break;
 	
-	case 'clean':
-		
+	case 'del':
+		if (!empty($_GET['id'])){
+			$csvManager = new CsvManager($bdd);
+			$csv = $csvManager->get($_GET['id']);
+			if (is_file('web/csv/'.$csv->name())){
+				unlink('web/csv/'.$csv->name());
+			}
+			$csvManager->delete($_GET['id']);
+			header('Location: ?controler=csv&action=list');
+		}
 	break;
+	
+	case 'list':
+		$csvManager = new CsvManager($bdd);
+		$csvtab = $csvManager->get($userid,'userid',TRUE);
+		
+		ob_start();
+		require_once 'view/csv/list.php';
+		$content = ob_get_contents();
+		ob_end_clean();
+		require_once 'view/layout/layout.php';
+	break;
+	
 	default:
 		;
 	break;
