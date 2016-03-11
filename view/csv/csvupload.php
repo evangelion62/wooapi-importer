@@ -3,7 +3,7 @@
 	<div class="form-group">
 	    <label for="file">Import Ficher de Questions</label>
 	    <input type="file" id="file" name="file">
-	    <p class="help-block">Veuillé selectioner votre fichier de question au format csv.</p>
+	    <p class="help-block">Veuillé selectioner votre fichier de produits au format csv.</p>
  	</div>
  	
  	<button type="submit" name="submit" class="btn btn-default">Envoyer</button>

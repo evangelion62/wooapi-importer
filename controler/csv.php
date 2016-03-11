@@ -126,6 +126,27 @@ switch ($action) {
 		require_once 'view/layout/layout.php';
 	break;
 	
+	case 'verify':
+		if (!empty($_GET['id'])){
+			$csvManager = new CsvManager($bdd);
+			$csv = $csvManager->get($_GET['id']);
+			if ($file = fopen('web/csv/'.$csv->name(),'r')){
+				$firstligne = fgetcsv($file,0,';','"');
+				$colonne = '';
+				
+				foreach ($firstligne as $row){
+					$colonne = $colonne.$row.'|';
+				}
+				$csv->setRow($colonne);
+				$csvManager->update($csv);
+			}
+			header('Location: ?controler=csv&action=list');
+		}else{
+			header('Location: ?controler=csv&action=list');
+		}
+		
+	break;
+	
 	default:
 		;
 	break;
