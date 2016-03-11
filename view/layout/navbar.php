@@ -8,27 +8,30 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="?controler=index">Quiz</a>
+      <a class="navbar-brand" href="?controler=index">Woo api Importer</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="?controler=game">Play</a></li>
-        <?php if (isset($_SESSION['token'])){?>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">parametres <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">1-Paramètres <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="?controler=theme&action=list">Thémes</a></li>
-            <li><a href="?controler=question&action=list">Questions</a></li>
-            <li><a href="?controler=user&action=list">Utilisateurs</a></li>
+            <li><a href="?controler=api&action=list">1.1-Paramétrer vos api</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="?controler=csv&action=upload">Upload csv</a></li>
-<!--             <li role="separator" class="divider"></li> -->
-<!--             <li><a href="#">One more separated link</a></li> -->
+            <li><a href="?controler=csv&action=list">1.2-Paramétrer vos csv</a></li>
+            
+         
           </ul>
         </li>
-        <?php }?>
+       	<li><a href="?controler=import">2-importation</a></li>
+       	<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">admin<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="?controler=user&action=list">utilisateur</a></li>
+            <li role="separator" class="divider"></li>
+          </ul>
+        </li>
       </ul>
       <?php if (isset($_SESSION['token'])){?>
       <form class="navbar-form navbar-right" action="?controler=user&action=logout" method="post">

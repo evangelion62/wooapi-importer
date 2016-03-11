@@ -19,7 +19,7 @@ if (!empty($_SESSION['token'])){
 		exit();
 	}
 }else{
-	$userError[] = 'cette page requiére une authentification merci de vous connecter';
+	$userError[] = 'cette page requiert une authentification merci de vous connecter';
 
 	require_once 'view/error/accessdenied.php';
 	$content = ob_get_contents();

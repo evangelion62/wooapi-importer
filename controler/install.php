@@ -3,16 +3,14 @@ switch ($action) {
 	case 'index':
 		
 		/*création des tables*/
-		$questionManager = new QuestionManager($bdd);
-		$questionManager->createTable();
-		$themeManager = new ThemeManager($bdd);
-		$themeManager->createTable();
 		$userManager = new UserManager($bdd);
 		$userManager->createTable();
 		$userRightsManager = new UserrightsManager($bdd);
 		$userRightsManager->createTable();
 		$tokenManager = new TokenManager($bdd);
 		$tokenManager->createTable();
+		$apiManager = new ApiManager($bdd);
+		$apiManager->createTable();
 		
 		/*redirection*/
 		header('Location: ?controler=install&action=firstuser');

@@ -1,8 +1,6 @@
 <?php
 switch ($action) {
 	case 'index':
-		$themeManager = new ThemeManager($bdd);
-		$themes = $themeManager->getList();
 		
 		ob_start();
 		require_once 'view/home/index.php';

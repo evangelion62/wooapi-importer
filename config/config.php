@@ -1,5 +1,5 @@
 <?php
-//connection à la bdd
+//bdd
 try
 {
 	$bdd = new PDO('mysql:host=localhost;dbname=test','root','');
@@ -18,7 +18,7 @@ function chargerClasse($classe)
 
 spl_autoload_register('chargerClasse');
 
-//définition des varriable controler et action
+//controler action
 if (!empty($_GET['controler'])) {
 	$_GET['controler']=stripslashes($_GET['controler']);
 	$_GET['controler']=htmlspecialchars($_GET['controler']);

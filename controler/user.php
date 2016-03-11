@@ -39,13 +39,16 @@ switch ($action) {
 	break;
 	
 	case 'logout':
+		$tokenManager = new TokenManager($bdd);
+		$token = $tokenManager->get($_SESSION['token'],'token');
+		$tokenManager->delete($token->id());
 		$_SESSION = array();
 		header('Location: ?controler=index');
 	break;
 	
 	case 'add':
 		
-		$adminLvlThisControler=3;
+		$adminLvlThisControler=4;
 		require_once 'lib/checkRights.php';
 		
 		if (isset($_POST['login'])&&isset($_POST['pass'])){
@@ -66,7 +69,7 @@ switch ($action) {
 	
 	case 'del':
 		
-		$adminLvlThisControler=3;
+		$adminLvlThisControler=4;
 		require_once 'lib/checkRights.php';
 		
 		if(isset($_GET['id'])){
@@ -81,7 +84,7 @@ switch ($action) {
 	
 	case 'edit':
 		
-		$adminLvlThisControler=3;
+		$adminLvlThisControler=4;
 		require_once 'lib/checkRights.php';
 		
 		if (isset($_POST['login']) && isset($_POST['pass']) && isset($_POST['id'])){
@@ -106,7 +109,7 @@ switch ($action) {
 	
 	case 'list':
 		
-		$adminLvlThisControler=3;
+		$adminLvlThisControler=4;
 		require_once 'lib/checkRights.php';
 		
 		$userManager = new UserManager($bdd);
@@ -158,6 +161,9 @@ switch ($action) {
 	break;
 	
 	case 'logoutForced' :
+		$tokenManager = new TokenManager($bdd);
+		$token = $tokenManager->get($_SESSION['token'],'token');
+		$tokenManager->delete($token->id());
 		$_SESSION = array();
 		$userError[]= 'token invalide : veuillez vous reconnecter';
 		ob_start();
