@@ -7,46 +7,9 @@ $util = new Util();
 $userid=$util->getUserId($_SESSION['token'], $bdd);
 
 switch ($action) {
-	case 'questexport':
-		$questionManager = new QuestionManager($bdd);
-		$questions=$questionManager->getList();
-		
-		$chemin = 'web/csv/questexport.csv';
-		$delimiteur = ';';
-		
-		if($fichier_csv = fopen($chemin,'w+'))
-		{
-		fprintf($fichier_csv, chr(0xEF).chr(0xBB).chr(0xBF));
-		
-		foreach ($questions as $question){
-			$questarray[] = $question->question();
-			$questarray[] = $question->rep1();
-			$questarray[] = $question->rep2();
-			$questarray[] = $question->rep3();
-			$questarray[] = $question->rep4();
-			$questarray[] = $question->rep();
-			
-			fputcsv($fichier_csv, $questarray , $delimiteur);
-			unset($questarray);
-		}
-		
-		fclose($fichier_csv);
-		
-		ob_start();
-		require_once 'view/csv/csvexport.php';
-		$content = ob_get_contents();
-		ob_end_clean();
-		require_once 'view/layout/layout.php';
-		}
-	break;
-	
-	case 'questimport':
-		$questionManager = new QuestionManager($bdd);
-		
-	break;
-	
+
 	case 'upload':
-		if (isset($_POST['submit'])){
+		if (isset($_POST['submit'])&&isset($_POST['separateur'])){
 			if ( isset($_FILES["file"])) {
 			
 				//if there was an error uploading the file
@@ -78,7 +41,7 @@ switch ($action) {
 						$storagename = $_FILES["file"]["name"];
 						move_uploaded_file($_FILES["file"]["tmp_name"], "web/csv/" . $storagename);
 						$csvManager = new CsvManager($bdd);
-						$data = array('name'=>$storagename,'userid'=>$userid);
+						$data = array('name'=>$storagename,'userid'=>$userid,'separateur'=>$_POST['separateur']);
 						$csv = new Csv($data);
 						$csvManager->add($csv);
 						echo "Stored in: " . "web/csv/" . $_FILES["file"]["name"] . "<br />";
@@ -145,6 +108,23 @@ switch ($action) {
 			header('Location: ?controler=csv&action=list');
 		}
 		
+	break;
+	
+	case 'associate':
+		if (!empty($_GET['id'])&&!empty($_POST[0])){
+			
+		}elseif(!empty($_GET['id'])){
+			$csvManager = new CsvManager($bdd);
+			$csv = $csvManager->get($_GET['id']);
+			$csv->setRow(explode('|', $csv->row()));
+			$csvRow = $csv->row();
+			
+			ob_start();
+			require_once 'view/csv/csvassociate.php';
+			$content = ob_get_contents();
+			ob_end_clean();
+			require_once 'view/layout/layout.php';
+		}	
 	break;
 	
 	default:

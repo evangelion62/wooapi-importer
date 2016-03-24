@@ -13,6 +13,8 @@ switch ($action) {
 		$apiManager->createTable();
 		$csvManager = new CsvManager($bdd);
 		$csvManager->createTable();
+		$csvAssociateManager = new CsvAssociateManager($bdd);
+		$csvAssociateManager->createTable();
 		
 		/*redirection*/
 		header('Location: ?controler=install&action=firstuser');
