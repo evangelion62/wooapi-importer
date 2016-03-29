@@ -33,7 +33,7 @@ switch ($action) {
 					//if file already exists
 					if (file_exists("web/csv/" . $_FILES["file"]["name"])) {
 						echo $_FILES["file"]["name"] . " already exists. ";
-					}elseif ($_FILES["file"]["type"]!='application/octet-stream'){
+					}elseif ($_FILES["file"]["type"]!='application/octet-stream'&&$_FILES["file"]["type"]!='text/csv'){
 						echo $_FILES["file"]["name"] . " not csv file. ";
 					}
 					else {
@@ -94,7 +94,7 @@ switch ($action) {
 			$csvManager = new CsvManager($bdd);
 			$csv = $csvManager->get($_GET['id']);
 			if ($file = fopen('web/csv/'.$csv->name(),'r')){
-				$firstligne = fgetcsv($file,0,';','"');
+				$firstligne = fgetcsv($file,0,$csv->separateur(),'"');
 				$colonne = '';
 				
 				foreach ($firstligne as $row){
@@ -111,23 +111,58 @@ switch ($action) {
 	break;
 	
 	case 'associate':
-		if (!empty($_GET['id'])&&!empty($_POST[0])){
+		if (!empty($_GET['id'])&&isset($_POST['rowid'])&&!empty($_POST['attribute'])){
+				$csvassociateManager = new CsvAssociateManager($bdd);
+				$tab = explode('|', $_POST['attribute']);
+				$data = array('rowid'=>$_POST['rowid'],'attribute'=>$tab[0],'type'=>$tab[1],'csvid'=>$_GET['id']);
+				$csvassociate = new CsvAssociate($data);
+				$csvassociateManager->add($csvassociate);
+				
+				header('Location: ?controler=csv&action=csvassociatelist&id='.$_GET['id']);
+			}elseif(!empty($_GET['id'])){
+				$csvManager = new CsvManager($bdd);
+				$csv = $csvManager->get($_GET['id']);
+				$csv->setRow(explode('|', $csv->row()));
+				$csvRow = $csv->row();
+				
+				ob_start();
+				require_once 'view/csv/csvassociate.php';
+				$content = ob_get_contents();
+				ob_end_clean();
+				require_once 'view/layout/layout.php';
+			}else{
 			
-		}elseif(!empty($_GET['id'])){
+			}
+	break;
+
+	case 'associatedel':
+		if (!empty($_GET['id'])){
+			$csvassociateManager = new CsvAssociateManager($bdd);
+			$csvassociate =$csvassociateManager->get($_GET['id']);
+			
+			$csvassociateManager->delete($_GET['id']);
+			
+			header('Location: ?controler=csv&action=csvassociatelist&id='.$csvassociate->csvid());
+		}
+	break;
+	
+	case 'csvassociatelist':
+		if (!empty($_GET['id'])){
+			$csvassociateManager = new CsvAssociateManager($bdd);
+			$csvassociates = $csvassociateManager->get($_GET['id'],'csvid',TRUE);
 			$csvManager = new CsvManager($bdd);
 			$csv = $csvManager->get($_GET['id']);
-			$csv->setRow(explode('|', $csv->row()));
-			$csvRow = $csv->row();
+			$rows = explode('|', $csv->row());
 			
 			ob_start();
-			require_once 'view/csv/csvassociate.php';
+			require_once 'view/csv/csvassociatelist.php';
 			$content = ob_get_contents();
 			ob_end_clean();
 			require_once 'view/layout/layout.php';
-		}	
+		}
 	break;
 	
 	default:
-		;
+		echo 'default';
 	break;
 }

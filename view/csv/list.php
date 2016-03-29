@@ -12,7 +12,10 @@
   <?php
   foreach ($csvtab as $csv) {?>
   <tr>
-    <td> <?php echo $csv->id()?> <a href="?controler=csv&action=del&id=<?php echo $csv->id()?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Suprimer</a> <a href="?controler=csv&action=verify&id=<?php echo $csv->id()?>"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Verifier</a></td>
+    <td> <?php echo $csv->id()?> 	<a href="?controler=csv&action=del&id=<?php echo $csv->id()?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Suprimer</a> 
+    								<a href="?controler=csv&action=verify&id=<?php echo $csv->id()?>"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Verifier</a>
+    								<a href="?controler=csv&action=csvassociatelist&id=<?php echo $csv->id()?>"><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span> Associer</a>
+    </td>
     <td><?php echo $csv->name()?></td>
     <td><?php echo $csv->row()?></td>
 	<td><?php echo $csv->separateur()?></td>

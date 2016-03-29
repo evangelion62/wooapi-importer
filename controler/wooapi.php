@@ -105,6 +105,46 @@ switch ($action) {
 			echo 'fail';
 		}
 	break;
+	
+	case 'getlist':
+		if (!empty($_GET['id'])){
+			$apiManager = new ApiManager($bdd);
+			$api = $apiManager->get($_GET['id']);
+		
+			require_once( 'lib/woocommerce-api.php' );
+			$options = array(
+					'debug'           => true,
+					'return_as_array' => false,
+					'validate_url'    => false,
+					'timeout'         => 30,
+					'ssl_verify'      => false,
+			);
+			try {
+				$client = new WC_API_Client( $api->url(), $api->ck(), $api->cs(), $options );
+				
+				// products
+				//print_r( $client->products->get() );
+				//print_r( $client->products->get( $product_id ) );
+				//print_r( $client->products->get( $variation_id ) );
+				//print_r( $client->products->get_by_sku( 'a-product-sku' ) );
+				//print_r( $client->products->create( array( 'title' => 'Test Product', 'type' => 'simple', 'regular_price' => '9.99', 'description' => 'test' ) ) );
+				//print_r( $client->products->update( $product_id, array( 'title' => 'Yet another test product' ) ) );
+				//print_r( $client->products->delete( $product_id, true ) );
+				//print_r( $client->products->get_count() );
+				print_r( $client->products->get_count( array( 'title' => 'Fichier 3d : bobine pour construire un électro-aimant par caru' ) ) );
+				//print_r( $client->products->get_categories() );
+				//print_r( $client->products->get_categories( $category_id ) );
+				
+			} catch ( WC_API_Client_Exception $e ) {
+				echo $e->getMessage() . PHP_EOL;
+				echo $e->getCode() . PHP_EOL;
+				if ( $e instanceof WC_API_Client_HTTP_Exception ) {
+					print_r( $e->get_request() );
+					print_r( $e->get_response() );
+				}
+			}
+		}
+	break;
 		
 	default:
 		;
