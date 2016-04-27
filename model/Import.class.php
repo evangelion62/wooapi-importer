@@ -3,7 +3,7 @@ class Import extends Entity{
 	//definition de la structure base de donné
 	public static $_properties = array (
 			//table csvassociate
-			'csvassociate'=>array(
+			'import'=>array(
 					'apiid'=>array(
 							Entity::TYPE=>Entity::INT,
 							Entity::LEN=>Entity::INT_MAX_LEN,

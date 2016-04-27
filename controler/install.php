@@ -15,6 +15,8 @@ switch ($action) {
 		$csvManager->createTable();
 		$csvAssociateManager = new CsvAssociateManager($bdd);
 		$csvAssociateManager->createTable();
+		$importManager = new ImportManager($bdd);
+		$importManager->createTable();
 		
 		/*redirection*/
 		header('Location: ?controler=install&action=firstuser');
