@@ -20,6 +20,8 @@
             <li><a href="?controler=api&action=list">1.1-Paramétrer vos api</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="?controler=csv&action=list">1.2-Paramétrer vos csv</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="?controler=import&action=list">1.3-Paramétrer vos importations</a></li>
             
          
           </ul>

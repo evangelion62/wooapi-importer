@@ -114,7 +114,10 @@ switch ($action) {
 		if (!empty($_GET['id'])&&isset($_POST['rowid'])&&!empty($_POST['attribute'])){
 				$csvassociateManager = new CsvAssociateManager($bdd);
 				$tab = explode('|', $_POST['attribute']);
-				$data = array('rowid'=>$_POST['rowid'],'attribute'=>$tab[0],'type'=>$tab[1],'csvid'=>$_GET['id']);
+				$data = array('rowid'=>$_POST['rowid'],'attribute'=>$tab[0].'|'.$tab[1],'type'=>$tab[2],'csvid'=>$_GET['id']);
+				if (!empty($_POST['separateur'])){
+					$data['opt']=$_POST['separateur'];
+				}
 				$csvassociate = new CsvAssociate($data);
 				$csvassociateManager->add($csvassociate);
 				
