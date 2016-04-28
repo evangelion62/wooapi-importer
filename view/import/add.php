@@ -2,6 +2,12 @@
 <form action="?controler=import&action=add" method="post">
 
 	    <div class="form-group">
+			<label for="name" class="control-label">nom de l'import</label>
+			<div>
+				<input type="text" id="name" name="name" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
 			<label for="apiid" class="control-label">Selectionner une api</label>
 			<div>
 				<select class="form-control" name="apiid">
@@ -13,7 +19,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="csvid" class="control-label">Selectionner une api</label>
+			<label for="csvid" class="control-label">Selectionner un csv</label>
 			<div>
 				<select class="form-control" name="csvid">
 <?php foreach ($tabCsv as $csv) {?>
