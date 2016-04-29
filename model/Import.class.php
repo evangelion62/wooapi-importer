@@ -14,19 +14,25 @@ class Import extends Entity{
 							Entity::TYPE=>Entity::INT,
 							Entity::LEN=>Entity::INT_MAX_LEN,
 							Entity::NULL_OR_NOT=>Entity::NOT_NULL,
-							Entity::COMMENT=>'id du csv upload�',
+							Entity::COMMENT=>'id du csv upload',
 					),
 					'csvid'=>array(
 							Entity::TYPE=>Entity::INT,
 							Entity::LEN=>Entity::INT_MAX_LEN,
 							Entity::NULL_OR_NOT=>Entity::NOT_NULL,
-							Entity::COMMENT=>'id du csv upload�',
+							Entity::COMMENT=>'id du csv upload',
 					),
 					'opt'=>array(
 							Entity::TYPE=>Entity::TEXT,
 							Entity::LEN=>9999,
 							Entity::NULL_OR_NOT=>NULL,
 							Entity::COMMENT=>'options d association'
+					),
+					'userid'=>array(
+							Entity::TYPE=>Entity::INT,
+							Entity::LEN=>Entity::INT_MAX_LEN,
+							Entity::NULL_OR_NOT=>Entity::NOT_NULL,
+							Entity::COMMENT=>'id utilisateur',
 					),
 			),
 	);
@@ -35,5 +41,5 @@ class Import extends Entity{
 	protected $_apiid;
 	protected $_csvid;
 	protected $_opt;
-
+	protected $_userid;
 }

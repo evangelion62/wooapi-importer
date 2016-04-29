@@ -8,11 +8,13 @@ function productsImportStart(Csv $csv,array $csvAssociates,WC_API_Client $client
 	 */
 	if ($file = fopen('web/csv/'.$csv->name(),'r')) 
 	{
+		ob_start();
 		/*
 		 * on parcoure le csv à importé
 		 */
 		$cmpt = 0;
 		$imagesCmpt = 0;
+		$resultTab = array();
 		while (($ligne = fgetcsv($file,0,$csv->separateur(),'"')) && $cmpt < 1000){
 
 			/*
@@ -72,21 +74,34 @@ function productsImportStart(Csv $csv,array $csvAssociates,WC_API_Client $client
 				}
 			}
 				
-			echo $cmpt;	
-			var_dump($product);
+			//echo $cmpt;	
+			//var_dump($product);
 			/*
 			 * si c'est un produit simple on créer le produit
 			*/
-			if (array_key_exists('type', $product) && $cmpt == 14){
+			if (array_key_exists('type', $product) ){
 				if (stristr($product['type'],'simple')){
-					$client->products->create($product);
+					
+					$result=$client->products->create($product);
+					$result = json_decode($result->http->response->body);
+					
+					$resultTab[] = array(	'title'=> $result->product->title,
+											'id'=> $result->product->id,
+											'csvligne' => $cmpt
+										);
+ 					
 				}
 			}else{
-				//$client->products->create($product);
+				$client->products->create($product);
 			}
 			
 			$cmpt++;
 		}
+		
+		var_dump( $resultTab);
+		$content = ob_get_contents();
+		ob_end_clean();
+		require_once 'view/layout/layout.php';
 	}
 	else
 	{
